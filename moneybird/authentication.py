@@ -11,7 +11,7 @@ class Authentication(object):
     """
     Base class for authentication implementations.
     """
-    def is_ready(self) -> bool:
+    def is_ready(self):
         """
         Checks whether authentication can be performed. A negative result means that it is certain that a request will
         not authenticate.
@@ -20,7 +20,7 @@ class Authentication(object):
         """
         raise NotImplementedError()
 
-    def get_session(self) -> requests.Session:
+    def get_session(self):
         """
         Creates a new session with the authentication settings applied.
 
@@ -35,10 +35,10 @@ class TokenAuthentication(Authentication):
 
     :param auth_token: The authentication token to use.
     """
-    def __init__(self, auth_token: str = ''):
+    def __init__(self, auth_token=''):
         self.auth_token = auth_token
 
-    def set_token(self, auth_token: str):
+    def set_token(self, auth_token):
         """
         Sets the authentication token.
 
@@ -46,10 +46,10 @@ class TokenAuthentication(Authentication):
         """
         self.auth_token = auth_token
 
-    def is_ready(self) -> bool:
+    def is_ready(self):
         return bool(self.auth_token)
 
-    def get_session(self) -> requests.Session:
+    def get_session(self):
         session = requests.Session()
         session.headers.update({
             'Authorization': 'Bearer %s' % self.auth_token,
@@ -74,14 +74,14 @@ class OAuthAuthentication(Authentication):
     auth_url = 'authorize/'
     token_url = 'token/'
 
-    def __init__(self, redirect_url: str, client_id: str, client_secret: str, auth_token: str = ''):
+    def __init__(self, redirect_url, client_id, client_secret, auth_token=''):
         self.redirect_url = redirect_url
         self.client_id = client_id
         self.client_secret = client_secret
 
         self.real_auth = TokenAuthentication(auth_token)
 
-    def authorize_url(self, scope: list, state: str = None) -> tuple:
+    def authorize_url(self, scope, state=None) -> tuple:
         """
         Returns the URL to which the user can be redirected to authorize your application to access his/her account and
         the state which can be used for CSRF protection as a tuple.
@@ -107,7 +107,7 @@ class OAuthAuthentication(Authentication):
 
         return "%s?%s" % (url, urlencode(params)), params['state']
 
-    def obtain_token(self, redirect_url: str, state: str) -> str:
+    def obtain_token(self, redirect_url, state):
         """
         Exchange the code obtained using `authorize_url` for an authorization token.
 
@@ -164,14 +164,14 @@ class OAuthAuthentication(Authentication):
 
         return response['access_token']
 
-    def is_ready(self) -> bool:
+    def is_ready(self):
         return self.real_auth.is_ready()
 
-    def get_session(self) -> requests.Session:
+    def get_session(self):
         return self.real_auth.get_session()
 
     @staticmethod
-    def _generate_state() -> str:
+    def _generate_state():
         """
         Generates a new random string to be used as OAuth state.
         :return: A randomly generated OAuth state
@@ -184,7 +184,7 @@ class OAuthAuthentication(Authentication):
         """
         Exception for OAuth protocol errors.
         """
-        def __init__(self, error_code: str, description: str = None):
+        def __init__(self, error_code, description=None):
             if not error_code:
                 error_code = 'unknown'
             if not description:
