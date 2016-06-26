@@ -19,13 +19,13 @@ class MoneyBird(object):
     version = 'v2'
     base_url = 'https://moneybird.com/api/'
 
-    def __init__(self, authentication: Authentication):
+    def __init__(self, authentication):
         self.authentication = authentication
         self.session = None
 
         self.renew_session()
 
-    def get(self, resource_path: str, administration_id: int = None):
+    def get(self, resource_path, administration_id=None):
         """
         Performs a GET request to the endpoint identified by the resource path.
 
@@ -46,7 +46,7 @@ class MoneyBird(object):
         )
         return self._process_response(response)
 
-    def post(self, resource_path: str, data: dict, administration_id: int = None):
+    def post(self, resource_path, data, administration_id=None):
         """
         Performs a POST request to the endpoint identified by the resource path. POST requests are usually used to add
         new data.
@@ -69,7 +69,7 @@ class MoneyBird(object):
         )
         return self._process_response(response)
 
-    def patch(self, resource_path: str, data: dict, administration_id: int = None):
+    def patch(self, resource_path, data, administration_id=None):
         """
         Performs a PATCH request to the endpoint identified by the resource path. PATCH requests are usually used to
         change existing data.
@@ -87,7 +87,7 @@ class MoneyBird(object):
         )
         return self._process_response(response)
 
-    def delete(self, resource_path: str, administration_id: int = None):
+    def delete(self, resource_path, administration_id=None):
         """
         Performs a DELETE request to the endpoint identified by the resource path. DELETE requests are usually used to
         (permanently) delete existing data. USE THIS METHOD WITH CAUTION.
@@ -118,7 +118,7 @@ class MoneyBird(object):
         })
 
     @classmethod
-    def _get_url(cls, administration_id: int, resource_path: str):
+    def _get_url(cls, administration_id, resource_path):
         """
         Builds the URL to the API endpoint specified by the given parameters.
 
@@ -136,7 +136,7 @@ class MoneyBird(object):
         return url
 
     @staticmethod
-    def _process_response(response: requests.Response, expected: list = []) -> dict:
+    def _process_response(response: requests.Response, expected=[]):
         """
         Processes an API response. Raises an exception when appropriate.
 
@@ -195,7 +195,7 @@ class MoneyBird(object):
 
         This exception is specialized into a number of exceptions with the exact same properties.
         """
-        def __init__(self, response: requests.Response, description: str = None):
+        def __init__(self, response: requests.Response, description=None):
             """
             :param response: The API response
             :param description: Description of the error
