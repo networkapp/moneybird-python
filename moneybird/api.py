@@ -136,7 +136,7 @@ class MoneyBird(object):
         return url
 
     @staticmethod
-    def _process_response(response: requests.Response, expected=[]):
+    def _process_response(response, expected=[]):
         """
         Processes an API response. Raises an exception when appropriate.
 
@@ -195,7 +195,7 @@ class MoneyBird(object):
 
         This exception is specialized into a number of exceptions with the exact same properties.
         """
-        def __init__(self, response: requests.Response, description=None):
+        def __init__(self, response, description=None):
             """
             :param response: The API response
             :param description: Description of the error
