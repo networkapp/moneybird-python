@@ -1,6 +1,11 @@
 import logging
 import uuid
-from urllib.parse import urljoin, urlencode, parse_qs
+try:
+    from urllib.parse import urljoin, urlencode, parse_qs  # Python 3
+except ImportError:
+    from urlparse import urljoin, parse_qs  # Python 2
+    from urllib import urlencode
+
 
 import requests
 
