@@ -81,7 +81,7 @@ class OAuthAuthentication(Authentication):
 
         self.real_auth = TokenAuthentication(auth_token)
 
-    def authorize_url(self, scope, state=None) -> tuple:
+    def authorize_url(self, scope, state=None):
         """
         Returns the URL to which the user can be redirected to authorize your application to access his/her account and
         the state which can be used for CSRF protection as a tuple.
