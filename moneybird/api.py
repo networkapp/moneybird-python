@@ -1,7 +1,7 @@
 import logging
 try:
     from urllib.parse import urljoin  # Python 3
-except ImportError
+except ImportError:
     from urlparse import urljoin  # Python 2
 
 import requests
